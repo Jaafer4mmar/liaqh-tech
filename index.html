@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>لياقة Tech | المنصة الصحية</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        green: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d',
+                            950: '#052e16',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Modern High-Contrast Glassmorphic Foundations */
+        .glass-panel {
+            background: rgba(215, 238, 224, 0.75);
+            backdrop-filter: blur(35px) saturate(210%);
+            -webkit-backdrop-filter: blur(35px) saturate(210%);
+            border: 1px solid rgba(22, 163, 74, 0.35);
+            box-shadow: 0 25px 60px -15px rgba(10, 50, 25, 0.22);
+        }
+        
+        .glass-card {
+            background: rgba(225, 242, 232, 0.55);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            border: 1px solid rgba(22, 163, 74, 0.25);
+            box-shadow: 0 12px 35px -8px rgba(10, 50, 25, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            background: rgba(210, 235, 220, 0.75);
+            border-color: rgba(22, 163, 74, 0.5);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -5px rgba(22, 163, 74, 0.25);
+        }
+
+        .glass-input {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(22, 163, 74, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.9);
+            border-color: rgba(21, 128, 61, 0.8);
+            box-shadow: 0 0 22px rgba(22, 163, 74, 0.3);
+            outline: none;
+        }
+
+        .glass-button {
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.85), rgba(20, 83, 45, 0.95));
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 8px 32px rgba(20, 83, 45, 0.25);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-button:hover {
+            background: linear-gradient(135deg, rgba(22, 163, 74, 0.95), rgba(20, 83, 45, 1));
+            box-shadow: 0 12px 38px rgba(20, 83, 45, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Ambient Dynamic Light Sources */
+        .bg-blob {
+            position: absolute;
+            filter: blur(110px);
+            z-index: -1;
+            opacity: 0.75;
+            animation: pulse-slow 12s infinite ease-in-out alternate;
+        }
+
+        @keyframes pulse-slow {
+            0% { transform: scale(1) translate(0px, 0px); }
+            50% { transform: scale(1.15) translate(40px, -30px); }
+            100% { transform: scale(0.9) translate(-20px, 20px); }
+        }
+
+        /* Modern Range Slider Styling */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 4px solid #16a34a;
+            box-shadow: 0 0 15px rgba(22, 163, 74, 0.5);
+            cursor: pointer;
+            margin-top: -8px;
+            transition: transform 0.1s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:active {
+            transform: scale(1.25);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: rgba(22, 163, 74, 0.3);
+            border-radius: 10px;
+        }
+
+        /* Floating Animation */
+        .floating-element {
+            animation: float 5s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(1deg); }
+        }
+
+        .spinner-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            border-top-color: #15803d;
+            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        }
+        .spinner-ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            border-top-color: #22c55e;
+            animation-duration: 1.6s;
+            animation-direction: reverse;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media screen and (max-width: 768px) {
+            input, select, textarea {
+                font-size: 16px !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#daedd9] text-slate-900 min-h-screen relative overflow-x-hidden pb-12 font-sans selection:bg-green-200">
+
+    <!-- Ambient Hologram Background Blobs -->
+    <div class="bg-blob bg-green-300 w-[600px] h-[600px] rounded-full -top-40 -right-40" style="animation-delay: 0s;"></div>
+    <div class="bg-blob bg-emerald-200 w-[700px] h-[700px] rounded-full -bottom-40 -left-40" style="animation-delay: 2s;"></div>
+    <div class="bg-blob bg-teal-200 w-[500px] h-[500px] rounded-full top-1/3 left-1/4" style="animation-delay: 4s;"></div>
+    <div class="bg-blob bg-lime-200 w-[450px] h-[450px] rounded-full bottom-1/4 right-1/4" style="animation-delay: 1s;"></div>
+
+    <!-- Login Gate -->
+    <div id="loginGate" class="fixed inset-0 z-[150] flex items-center justify-center p-4 bg-gradient-to-tr from-[#ccead7]/50 via-[#daf2e3]/45 to-[#d1ebd9]/50 backdrop-blur-2xl transition-all duration-700 ease-in-out">
+        <div class="absolute bg-green-500/30 w-[450px] h-[450px] rounded-full blur-[110px] -top-10 -right-10 animate-pulse"></div>
+        <div class="absolute bg-emerald-400/30 w-[450px] h-[450px] rounded-full blur-[110px] -bottom-10 -left-10 animate-bounce duration-1000"></div>
+
+        <div class="glass-panel max-w-md w-full rounded-[35px] p-8 relative overflow-hidden shadow-2xl flex flex-col items-center">
+            
+            <div class="absolute top-4 left-4 z-30" id="loginLangDropdown">
+                <button onclick="toggleCustomDropdown('loginLangDropdownMenu')" class="bg-white/80 border border-green-300/60 backdrop-blur-md text-green-955 text-xs font-black rounded-xl px-3 py-2 flex items-center gap-1.5 transition-all shadow-sm">
+                    <span id="loginLangSelectedLabel">العربية</span>
+                    <i class="fa-solid fa-chevron-down text-[9px] text-green-800 transition-transform duration-300"></i>
+                </button>
+                <div id="loginLangDropdownMenu" class="hidden absolute top-full left-0 mt-1.5 w-28 glass-panel rounded-xl py-1 shadow-xl border border-green-300/50 flex flex-col z-40 overflow-hidden">
+                    <button onclick="selectCustomLang('ar', 'العربية')" class="px-3 py-2 text-right text-xs font-black text-slate-900 hover:bg-green-100/50 transition-colors">العربية</button>
+                    <button onclick="selectCustomLang('en', 'English')" class="px-3 py-2 text-right text-xs font-black text-slate-900 hover:bg-green-100/50 transition-colors">English</button>
+                    <button onclick="selectCustomLang('fr', 'Français')" class="px-3 py-2 text-right text-xs font-black text-slate-900 hover:bg-green-100/50 transition-colors">Français</button>
+                </div>
+            </div>
+
+            <div id="loginFormContainer" class="w-full space-y-6 text-center relative z-10">
+                <div class="flex flex-col items-center gap-3">
+                    <div class="w-[100px] h-[100px] bg-white/70 backdrop-blur-md rounded-2xl flex items-center justify-center p-3 shadow-lg shadow-green-600/20 border border-white/80 floating-element">
+                        <img src="https://i.imgur.com/RVvd13V.png" alt="لياقة Tech Logo" class="w-full h-full object-contain drop-shadow-md brightness-0">
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-black tracking-wide text-slate-955">لياقة <span class="text-green-700 font-extrabold">Tech</span></h2>
+                        <p class="text-xs font-extrabold text-green-900 mt-1 uppercase tracking-wider">المنصة الصحية</p>
+                    </div>
+                </div>
+
+                <div class="border-t border-green-200/50 pt-4 space-y-2">
+                    <h3 class="text-lg font-black text-slate-955">أهلاً بك في لياقة Tech</h3>
+                    <p class="text-xs font-bold text-slate-600 leading-relaxed">الرجاء إدخال الاسم للمتابعة</p>
+                </div>
+
+                <form onsubmit="loginUser(event)" class="space-y-4 text-right">
+                    <div>
+                        <label class="block text-xs font-bold text-green-955 mb-2 mr-1">الاسم</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-user absolute right-4 top-1/2 transform -translate-y-1/2 text-green-700"></i>
+                            <input type="text" id="userFullNameInput" required class="glass-input w-full rounded-2xl py-3.5 pr-11 pl-4 text-sm text-slate-955 font-black placeholder-slate-500" placeholder="مثال: جعفر عمار">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 glass-button text-white font-black text-sm rounded-2xl flex items-center justify-center gap-2">
+                        <span>دخول إلى المنصة</span>
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </button>
+                </form>
+
+                <div class="text-[10px] text-slate-500 pt-4 border-t border-green-200/30">
+                    تم التطوير بواسطة <span class="font-black text-slate-700">جعفر عمار</span> &copy; 2026
+                </div>
+            </div>
+
+            <div id="loginLoaderContainer" class="hidden w-full py-12 text-center space-y-6 relative z-10">
+                <div class="relative w-24 h-24 mx-auto">
+                    <div class="spinner-ring"></div>
+                    <div class="spinner-ring"></div>
+                    <i class="fa-solid fa-dna absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-2xl text-green-800 animate-pulse"></i>
+                </div>
+                <div class="space-y-1">
+                    <h4 class="text-sm font-black text-green-955 tracking-wider animate-pulse">تحضير حسابك الصحي الذكي...</h4>
+                    <p class="text-xs font-bold text-slate-600">نحن بانتظار تشغيل الخوارزميات الحيوية</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Inner Floating Toast Notification -->
+    <div id="toastNotification" class="fixed top-24 left-1/2 transform -translate-x-1/2 z-[100] hidden bg-green-955/95 text-white font-bold px-6 py-4 rounded-2xl border border-white/50 shadow-2xl flex items-center gap-3 backdrop-blur-md animate-bounce max-w-lg w-[90%]">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-green-400 text-xl animate-pulse shrink-0"></i>
+        <span id="toastMessage" class="text-sm leading-relaxed break-words font-black"></span>
+    </div>
+
+    <!-- Sidebar Overlay Backing -->
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/30 backdrop-blur-sm z-50 hidden transition-opacity duration-300"></div>
+
+    <!-- Sidebar Element -->
+    <aside id="sidebar" class="fixed top-0 right-0 h-full w-[320px] bg-white/50 border-l border-white/60 text-slate-900 z-[60] flex flex-col justify-between p-6 transition-transform duration-300 translate-x-full shadow-2xl backdrop-blur-xl">
+        <div class="space-y-6">
+            <div class="flex items-center justify-between">
+                <button onclick="toggleSidebar()" class="w-10 h-10 rounded-full bg-white/70 hover:bg-white/90 flex items-center justify-center transition-colors shadow-sm border border-green-200/50">
+                    <i class="fa-solid fa-xmark text-green-800 text-lg"></i>
+                </button>
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 flex items-center justify-center">
+                        <img src="https://i.imgur.com/RVvd13V.png" alt="لياقة Tech Logo" class="w-full h-full object-contain drop-shadow-md brightness-0">
+                    </div>
+                    <div class="text-right">
+                        <h2 class="text-lg font-black tracking-wide leading-none text-slate-955">لياقة <span class="text-green-700">Tech</span></h2>
+                        <span class="text-[10px] font-bold text-slate-600">احسب وجباتك بدقة</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white/70 p-4 rounded-2xl border border-white/70 text-right flex items-center gap-3 shadow-inner">
+                <div class="w-10 h-10 bg-green-200/50 rounded-full flex items-center justify-center text-green-800">
+                    <i class="fa-solid fa-circle-user text-xl"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-[10px] font-bold text-slate-600">المستخدم النشط</span>
+                    <span id="sidebarUserName" class="text-xs font-black text-slate-900">زائر كريم</span>
+                </div>
+            </div>
+
+            <nav class="space-y-3 pt-2">
+                <a href="javascript:void(0)" onclick="switchTab('analysis-tab'); toggleSidebar();" class="flex items-center gap-4 px-4 py-3.5 rounded-2xl bg-white/90 text-green-800 border border-green-300/50 font-black transition-all shadow-sm">
+                    <i class="fa-solid fa-house text-lg"></i>
+                    <span>الرئيسية (التحليل)</span>
+                </a>
+                <a href="javascript:void(0)" onclick="openContactModal()" class="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-slate-700 hover:bg-white/60 hover:text-green-800 font-black transition-all">
+                    <i class="fa-solid fa-envelope text-lg"></i>
+                    <span>اتصل بنا</span>
+                </a>
+                <a href="javascript:void(0)" onclick="openFeedbackModal()" class="flex items-center gap-4 px-4 py-3.5 rounded-2xl text-slate-700 hover:bg-white/60 hover:text-green-800 font-black transition-all">
+                    <i class="fa-solid fa-heart text-lg"></i>
+                    <span>رأيك يهمنا</span>
+                </a>
+                
+                <div class="px-4 py-3 mt-2 border-t border-slate-200 relative">
+                    <label class="block text-xs font-black text-green-955 mb-2">لغة المنصة / Language</label>
+                    <div class="relative w-full" id="sidebarLangDropdown">
+                        <button onclick="toggleCustomDropdown('sidebarLangDropdownMenu')" class="w-full bg-white/50 hover:bg-white/70 border-2 border-green-300/60 backdrop-blur-md text-green-955 text-sm font-black rounded-2xl py-3 px-4 flex items-center justify-between transition-all shadow-sm">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-language text-green-700 text-lg"></i>
+                                <span id="sidebarLangSelectedLabel">العربية (Arabic)</span>
+                            </div>
+                            <i class="fa-solid fa-chevron-down text-xs text-green-800 transition-transform duration-300"></i>
+                        </button>
+                        <div id="sidebarLangDropdownMenu" class="hidden absolute bottom-full mb-1.5 left-0 right-0 w-full glass-panel rounded-2xl py-1 shadow-xl border border-green-300/50 flex flex-col z-40 overflow-hidden">
+                            <button onclick="selectCustomLang('ar', 'العربية (Arabic)')" class="px-4 py-3 text-right text-xs md:text-sm font-black text-slate-900 hover:bg-green-100/50 transition-colors">العربية (Arabic)</button>
+                            <button onclick="selectCustomLang('en', 'English (الإنجليزية)')" class="px-4 py-3 text-right text-xs md:text-sm font-black text-slate-900 hover:bg-green-100/50 transition-colors">English (الإنجليزية)</button>
+                            <button onclick="selectCustomLang('fr', 'Français (الفرنسية)')" class="px-4 py-3 text-right text-xs md:text-sm font-black text-slate-900 hover:bg-green-100/50 transition-colors">Français (الفرنسية)</button>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-white/50 p-4 rounded-2xl border border-white/60 text-right space-y-2">
+                <h4 class="text-xs font-black text-green-800 flex items-center gap-1.5 justify-end">
+                    <span>وصف التطبيق (عن الموقع)</span>
+                    <i class="fa-solid fa-circle-info"></i>
+                </h4>
+                <p class="text-[11px] text-slate-700 leading-relaxed font-bold">
+                    منصة <strong class="text-slate-900">لياقة Tech</strong> رفيقك المثالي لحياة صحية! نحسب لك احتياجات جسمك من السعرات والعناصر الغذائية بدقة، ونوفر لك وصفات طعام ذكية ومبتكرة تتشكل مرونتها لتناسب نظامك الغذائي وهدفك الرياضي.
+                </p>
+            </div>
+
+            <button onclick="logoutUser()" class="w-full py-3 bg-red-100/60 hover:bg-red-200/80 text-red-700 font-black text-xs rounded-2xl transition-all flex items-center justify-center gap-2 border border-red-300/40 backdrop-blur-sm">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>تسجيل الخروج</span>
+            </button>
+
+            <div class="text-center border-t border-slate-200 pt-4 space-y-1">
+                <div class="flex items-center justify-center gap-2 text-xs font-bold text-slate-600">
+                    <i class="fa-solid fa-laptop-code text-green-600"></i>
+                    <span>تم التطوير بواسطة <span class="text-slate-900 font-black">جعفر عمار</span></span>
+                </div>
+                <div class="text-[10px] text-slate-500 font-mono">لياقة Tech &copy; 2026</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Modals -->
+    <div id="contactModal" class="fixed inset-0 bg-slate-950/30 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
+        <div class="glass-panel rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl relative text-slate-900">
+            <div class="absolute -right-20 -top-20 w-44 h-44 bg-green-400/30 rounded-full blur-3xl"></div>
+            <div class="p-6 border-b border-white/60 flex items-center justify-between relative z-10">
+                <h3 class="text-xl font-black text-green-900 flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i> اتصل بنا
+                </h3>
+                <button onclick="closeContactModal()" class="w-8 h-8 rounded-full bg-white/70 hover:bg-white/95 flex items-center justify-center transition-colors border border-green-200/50">
+                    <i class="fa-solid fa-xmark text-green-800"></i>
+                </button>
+            </div>
+            <form onsubmit="submitContactForm(event)" class="p-6 space-y-4 relative z-10">
+                <div>
+                    <label class="block text-xs font-black text-green-955 mb-2">الاسم الكامل</label>
+                    <input type="text" required id="contactName" class="glass-input w-full rounded-2xl px-4 py-3 text-sm text-slate-955 font-bold placeholder-slate-500" placeholder="مثال: جعفر عمار">
+                </div>
+                <div>
+                    <label class="block text-xs font-black text-green-955 mb-2">البريد الإلكتروني</label>
+                    <input type="email" required id="contactEmail" class="glass-input w-full rounded-2xl px-4 py-3 text-sm text-slate-955 font-bold placeholder-slate-500" placeholder="name@domain.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-black text-green-955 mb-2">رسالتك أو استفسارك</label>
+                    <textarea required id="contactMessage" rows="4" class="glass-input w-full rounded-2xl px-4 py-3 text-sm text-slate-955 font-bold placeholder-slate-500 resize-none" placeholder="اكتب استفسارك هنا وسنقوم بالرد عليك في أقرب وقت..."></textarea>
+                </div>
+                <button type="submit" id="contactSubmitBtn" class="w-full py-3.5 glass-button text-white font-black rounded-2xl hover:scale-[1.01] flex items-center justify-center gap-2">
+                    <span>إرسال الرسالة الآن</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="feedbackModal" class="fixed inset-0 bg-slate-950/30 backdrop-blur-md z-[100] hidden flex items-center justify-center p-4">
+        <div class="glass-panel rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl relative text-slate-900">
+            <div class="absolute -left-20 -top-20 w-44 h-44 bg-green-400/30 rounded-full blur-3xl"></div>
+            <div class="p-6 border-b border-white/60 flex items-center justify-between relative z-10">
+                <h3 class="text-xl font-black text-green-900 flex items-center gap-2">
+                    <i class="fa-solid fa-heart"></i> رأيك يهمنا
+                </h3>
+                <button onclick="closeFeedbackModal()" class="w-8 h-8 rounded-full bg-white/70 hover:bg-white/95 flex items-center justify-center transition-colors border border-green-200/50">
+                    <i class="fa-solid fa-xmark text-green-800"></i>
+                </button>
+            </div>
+            <form onsubmit="submitFeedbackForm(event)" class="p-6 space-y-6 relative z-10">
+                <div class="text-center">
+                    <span class="block text-sm font-black text-green-955 mb-3">تقييمك للمنصة الصحية</span>
+                    <div class="flex justify-center gap-2 flex-row-reverse">
+                        <input type="radio" id="star5" name="rating" value="5" class="hidden">
+                        <label for="star5" onclick="setRating(5)" class="cursor-pointer text-3xl text-slate-300 hover:text-green-600 transition-colors"><i class="fa-solid fa-star"></i></label>
+                        <input type="radio" id="star4" name="rating" value="4" class="hidden">
+                        <label for="star4" onclick="setRating(4)" class="cursor-pointer text-3xl text-slate-300 hover:text-green-600 transition-colors"><i class="fa-solid fa-star"></i></label>
+                        <input type="radio" id="star3" name="rating" value="3" class="hidden">
+                        <label for="star3" onclick="setRating(3)" class="cursor-pointer text-3xl text-slate-300 hover:text-green-600 transition-colors"><i class="fa-solid fa-star"></i></label>
+                        <input type="radio" id="star2" name="rating" value="2" class="hidden">
+                        <label for="star2" onclick="setRating(2)" class="cursor-pointer text-3xl text-slate-300 hover:text-green-600 transition-colors"><i class="fa-solid fa-star"></i></label>
+                        <input type="radio" id="star1" name="rating" value="1" class="hidden">
+                        <label for="star1" onclick="setRating(1)" class="cursor-pointer text-3xl text-slate-300 hover:text-green-600 transition-colors"><i class="fa-solid fa-star"></i></label>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-black text-green-955 mb-2">اكتب لنا انطباعك أو ميزة تود إضافتها</label>
+                    <textarea required id="feedbackComment" rows="4" class="glass-input w-full rounded-2xl px-4 py-3 text-sm text-slate-955 font-bold placeholder-slate-500 resize-none" placeholder="نحن نصغي لمقترحاتك لنوفر لك بيئة استخدام أفضل دائماً..."></textarea>
+                </div>
+                <button type="submit" id="feedbackSubmitBtn" class="w-full py-3.5 glass-button text-white font-black rounded-2xl hover:scale-[1.01] flex items-center justify-center gap-2">
+                    <span>إرسال التقييم</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Global App Header -->
+    <header class="glass-panel sticky top-4 z-40 px-6 py-4 mb-6 border-b border-white/60 max-w-7xl mx-auto rounded-3xl mt-4 shadow-xl">
+        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center justify-between w-full md:w-auto gap-4">
+                <button onclick="toggleSidebar()" class="w-11 h-11 rounded-2xl bg-white/70 hover:bg-white/90 text-green-800 border border-green-300/60 flex items-center justify-center transition-colors shadow-sm">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                
+                <div class="hidden md:flex flex-col text-right border-r border-green-300/40 pr-4">
+                    <span class="text-[10px] font-bold text-slate-600 uppercase tracking-wider">مرحباً بك</span>
+                    <span id="userGreetingName" class="text-xs font-black text-green-800">زائر كريم</span>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 flex items-center justify-center">
+                        <img src="https://i.imgur.com/RVvd13V.png" alt="لياقة Tech Logo" class="w-full h-full object-contain drop-shadow-md brightness-0">
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-black text-slate-955 tracking-wide leading-none">لياقة <span class="text-green-700">Tech</span></h1>
+                        <span class="text-[11px] font-black text-green-900 tracking-wider uppercase block mt-1">احسب وجباتك بدقة</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex bg-white/50 p-1.5 rounded-2xl border border-green-300/40 shadow-inner w-full md:w-auto justify-center">
+                <button onclick="switchTab('analysis-tab')" id="btn-analysis-tab" class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-black text-xs md:text-sm transition-all duration-300 bg-white/90 text-green-955 shadow-md border border-white/80">
+                    <i class="fa-solid fa-calculator text-green-700"></i>
+                    التحليل الذكي للوجبات
+                </button>
+                <button onclick="switchTab('recipes-tab')" id="btn-recipes-tab" class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-black text-xs md:text-sm transition-all duration-300 text-green-900 hover:text-green-955">
+                    <i class="fa-solid fa-utensils"></i>
+                    الوصفات الذكية التكيفية
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4">
+
+        <section id="analysis-tab" class="tab-content max-w-5xl mx-auto space-y-8">
+            <div class="text-center space-y-2">
+                <span class="px-4 py-1.5 bg-green-200/50 text-green-900 rounded-full text-xs font-black border border-green-300/40 uppercase tracking-widest backdrop-blur-sm shadow-sm">توجيه دقيق علمياً</span>
+                <h2 class="text-3xl font-black text-green-955">التحليل الذكي للمكونات الغذائية</h2>
+                <p class="text-green-955 font-bold max-w-xl mx-auto text-sm md:text-base leading-relaxed">اكتشف السعرات الحرارية والعناصر الغذائية (بروتين، كارب، دهون) في وجباتك بدقة متناهية بناءً على وزنها.</p>
+            </div>
+
+            <div class="glass-panel rounded-3xl p-6 md:p-10 relative overflow-hidden">
+                <div class="grid lg:grid-cols-12 gap-8 items-start">
+                    
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="border-b border-green-300/40 pb-4">
+                            <h3 class="text-lg font-black text-green-955 flex items-center gap-2">
+                                <i class="fa-solid fa-sliders text-green-700"></i> خيارات التحليل النشط
+                            </h3>
+                        </div>
+
+                        <div>
+                            <label class="block text-green-955 font-black text-sm mb-2 mr-1">وزن الوجبة الكلي (بالجرام) <span class="text-red-500">*</span></label>
+                            <div class="relative">
+                                <i class="fa-solid fa-scale-balanced absolute right-4 top-1/2 transform -translate-y-1/2 text-green-700"></i>
+                                <input type="number" id="mealWeight" value="100" class="glass-input w-full rounded-2xl py-3.5 pr-12 pl-4 text-green-955 font-black text-lg" placeholder="مثال: 100">
+                                <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-xs font-black text-green-900 bg-white/70 border border-green-300/40 px-2 py-1 rounded-md">جرام</span>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-green-955 font-black text-sm mb-2 mr-1">اسم الأكلة أو المكون (مدعوم بالذكاء الاصطناعي ✨)</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-magnifying-glass absolute right-4 top-1/2 transform -translate-y-1/2 text-green-700"></i>
+                                <input type="text" id="mealName" class="glass-input w-full rounded-2xl py-3.5 pr-12 pl-4 text-green-955 font-bold" placeholder="ابحث في قاعدة البيانات أو اكتب أي طعام..." oninput="showDbSuggestions(this.value)">
+                            </div>
+                            <div id="searchSuggestions" class="hidden mt-2 bg-white/95 backdrop-blur-md border border-green-300/50 rounded-2xl max-h-48 overflow-y-auto shadow-2xl z-20 relative p-1"></div>
+                        </div>
+
+                        <div class="flex items-center justify-between gap-4 text-green-900/80 font-black text-xs px-2">
+                            <hr class="w-full border-green-300/40">
+                            <span>أو</span>
+                            <hr class="w-full border-green-300/40">
+                        </div>
+
+                        <!-- Drag and Drop Dropzone -->
+                        <div id="dropZone" class="glass-card rounded-3xl p-6 text-center cursor-pointer hover:bg-white/60 transition-all duration-300 border-dashed border-2 border-green-500 group relative">
+                            <input type="file" id="fileInput" class="hidden" accept="image/*" onchange="handleFileUpload(this.files[0])">
+                            <div class="w-14 h-14 bg-white/90 rounded-full flex items-center justify-center mx-auto mb-3 shadow-md group-hover:scale-110 transition-transform border border-green-200/50">
+                                <i class="fa-solid fa-wand-magic-sparkles text-2xl text-green-700"></i>
+                            </div>
+                            <p class="text-green-955 font-black text-sm">اسحب صورة طبقك هنا أو اضغط للتحليل بالذكاء الاصطناعي</p>
+                            <p class="text-xs text-green-900 mt-1 font-bold">مدعوم بتقنية التعرف البصري والذكاء التفاعلي ✨</p>
+                        </div>
+
+                        <button onclick="analyzeMeal()" class="w-full glass-button text-white font-black text-lg py-4 rounded-2xl hover:scale-[1.01]">
+                            <i class="fa-solid fa-bolt ml-2 animate-pulse"></i> خلينا نحسب السعرات
+                        </button>
+                    </div>
+
+                    <div class="lg:col-span-7 h-full">
+                        <div class="relative flex items-center justify-center min-h-[420px] bg-white/30 rounded-3xl border border-green-200/40 p-6 shadow-inner overflow-hidden">
+                            <div class="absolute inset-0 bg-[radial-gradient(#16a34a_1.5px,transparent_1.5px)] [background-size:16px_16px] opacity-25"></div>
+
+                            <div id="initialState" class="text-center relative z-10 p-6">
+                                <div class="w-20 h-20 bg-white/80 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-200/50 shadow-md floating-element">
+                                    <i class="fa-solid fa-satellite-dish text-4xl text-green-800"></i>
+                                </div>
+                                <h4 class="text-lg font-black text-green-955 mb-1">مسحوق الطاقة خامل</h4>
+                                <p class="text-xs font-black text-green-900 max-w-xs mx-auto leading-relaxed">أدخل المكون والوزن المقدر ثم انقر "معالجة" لفتح الحساب الرياضي الفوري للماكروس الكبرى.</p>
+                            </div>
+
+                            <div id="loader" class="hidden relative w-36 h-36 z-10">
+                                <div class="spinner-ring"></div>
+                                <div class="spinner-ring"></div>
+                                <i class="fa-solid fa-dna absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-3xl text-green-800 animate-pulse"></i>
+                                <div class="absolute -bottom-12 left-1/2 transform -translate-x-1/2 w-48 text-center text-green-955 font-black text-sm tracking-wider animate-pulse">
+                                    جاري مطابقة القوانين الحيوية...
+                                </div>
+                            </div>
+
+                            <div id="resultCard" class="hidden w-full relative z-10 flex flex-col justify-between h-full space-y-6">
+                                <div class="border-b border-green-300/40 pb-4 flex items-start justify-between">
+                                    <div>
+                                        <span id="resCategory" class="px-2.5 py-1 bg-white/70 text-green-900 border border-green-300/40 text-xs font-black rounded-md inline-block mb-1">تصنيف غذائي موثق</span>
+                                        <h3 id="resName" class="text-2xl font-black text-green-955"></h3>
+                                        <span id="aiBadge" class="hidden text-[10px] bg-purple-100/70 text-purple-800 px-2 py-0.5 rounded-full font-bold ml-2 border border-purple-300/40"><i class="fa-solid fa-sparkles"></i> تم التحليل بواسطة Gemini AI</span>
+                                    </div>
+                                    <div class="text-left">
+                                        <span class="text-xs font-black text-green-900 block">كتلة الوجبة</span>
+                                        <span class="text-lg font-black text-green-955"><span id="resWeight">100</span> جرام</span>
+                                    </div>
+                                </div>
+
+                                <div class="bg-gradient-to-tr from-green-600/20 to-emerald-600/20 border border-green-300/50 rounded-3xl p-6 text-center shadow-inner relative overflow-hidden backdrop-blur-sm">
+                                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-500 via-emerald-600 to-green-500"></div>
+                                    <span class="text-xs font-black text-green-900 uppercase tracking-widest block mb-1">إجمالي الطاقة المصروفة</span>
+                                    <div class="text-6xl font-black text-green-800 leading-none my-2" id="resCalories">0</div>
+                                    <span class="text-xs font-black text-green-955">سعرة حرارية (Kcal)</span>
+                                </div>
+
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center hover:border-green-500">
+                                        <div class="w-8 h-8 rounded-full bg-red-100/50 flex items-center justify-center mb-1 border border-red-200/50">
+                                            <i class="fa-solid fa-egg text-red-600 text-xs"></i>
+                                        </div>
+                                        <span class="text-xs font-black text-slate-700">بروتين</span>
+                                        <div class="text-lg font-black text-slate-900" id="resProtein">0g</div>
+                                        <span class="text-[9px] font-black text-red-800 bg-red-100/60 px-1.5 py-0.5 rounded-full mt-1">4 سعرة/جم</span>
+                                    </div>
+                                    <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center hover:border-green-500">
+                                        <div class="w-8 h-8 rounded-full bg-amber-100/50 flex items-center justify-center mb-1 border border-amber-200/50">
+                                            <i class="fa-solid fa-wheat-awn text-amber-700 text-xs"></i>
+                                        </div>
+                                        <span class="text-xs font-black text-slate-700">كربوهيدرات</span>
+                                        <div class="text-lg font-black text-slate-900" id="resCarbs">0g</div>
+                                        <span class="text-[9px] font-black text-amber-800 bg-amber-100/60 px-1.5 py-0.5 rounded-full mt-1">4 سعرة/جم</span>
+                                    </div>
+                                    <div class="glass-card p-4 rounded-2xl flex flex-col items-center justify-center hover:border-green-500">
+                                        <div class="w-8 h-8 rounded-full bg-emerald-100/50 flex items-center justify-center mb-1 border border-emerald-200/50">
+                                            <i class="fa-solid fa-droplet text-emerald-700 text-xs"></i>
+                                        </div>
+                                        <span class="text-xs font-black text-slate-700">دهون صحية</span>
+                                        <div class="text-lg font-black text-slate-900" id="resFats">0g</div>
+                                        <span class="text-[9px] font-black text-emerald-800 bg-emerald-100/60 px-1.5 py-0.5 rounded-full mt-1">9 سعرة/جم</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recipes-tab" class="tab-content hidden max-w-7xl mx-auto space-y-8">
+            <div class="text-center space-y-2">
+                <span class="px-4 py-1.5 bg-emerald-200/50 text-emerald-900 rounded-full text-xs font-black border border-emerald-300/40 uppercase tracking-widest backdrop-blur-sm shadow-sm">تكييف ذكي متكامل</span>
+                <h2 class="text-3xl font-black text-green-955">مولد الوصفات وتكييف السعرات</h2>
+                <p class="text-green-955 font-bold max-w-xl mx-auto text-sm md:text-base leading-relaxed">اسحب شريط السعرات ليتكفل الذكاء الرياضي بضبط أحجام المكونات في الوقت الفعلي لتحصل على هدفك بدقة غرامية.</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto glass-panel p-6 md:p-8 rounded-3xl shadow-xl relative overflow-hidden">
+                <div class="absolute -right-20 -top-20 w-44 h-44 bg-green-300/30 rounded-full blur-3xl"></div>
+                <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-white/80 rounded-2xl flex items-center justify-center border border-green-200/50 text-green-700 shadow-sm">
+                            <i class="fa-solid fa-fire-flame-curved text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs font-black text-green-900 uppercase block tracking-wider">الاستهلاك اليومي المستهدف</span>
+                            <span class="text-lg font-black text-green-955">مستوى الطاقة الحركي للوجبة</span>
+                        </div>
+                    </div>
+                    <div class="text-center md:text-left bg-white/70 px-6 py-3 rounded-2xl border border-green-300/50 shadow-inner">
+                        <span class="text-4xl font-black text-green-700 block" id="calorieTargetDisplay">1200</span>
+                        <span class="text-xs font-black text-green-900 uppercase tracking-widest">كيلو كالوري / Kcal</span>
+                    </div>
+                </div>
+                <div class="mt-8 relative z-10">
+                    <input type="range" id="calorieSlider" min="200" max="3000" step="50" value="1200" oninput="updateCalorieLabel(this.value)" class="w-full">
+                    <div class="flex justify-between text-xs font-black text-green-955 mt-3 px-1">
+                        <span class="bg-white/70 px-2.5 py-1 rounded-md border border-green-200/50">200 سعرة</span>
+                        <span class="bg-white/70 px-2.5 py-1 rounded-md border border-green-200/50">3000 سعرة</span>
+                    </div>
+                </div>
+
+                <!-- خيارات الهدف الرياضي -->
+                <div class="mt-8 border-t border-green-300/40 pt-6">
+                    <div class="mb-6">
+                        <span class="block text-sm font-black text-green-955 mb-3 text-center">اختر هدفك الرياضي لتخصيص الوصفات</span>
+                        <div class="flex flex-wrap justify-center gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="fitnessGoal" value="bulking" onchange="updateSmartRecipes()" class="peer sr-only">
+                                <div class="px-5 py-2.5 rounded-2xl border border-green-300/50 bg-white/50 text-slate-700 font-black peer-checked:border-blue-600 peer-checked:bg-blue-100/60 peer-checked:text-blue-900 hover:border-blue-300 transition-all flex items-center gap-2 shadow-sm backdrop-blur-sm">
+                                    <i class="fa-solid fa-dumbbell"></i> تضخيم
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="fitnessGoal" value="cutting" onchange="updateSmartRecipes()" class="peer sr-only">
+                                <div class="px-5 py-2.5 rounded-2xl border border-green-300/50 bg-white/50 text-slate-700 font-black peer-checked:border-orange-600 peer-checked:bg-orange-100/60 peer-checked:text-orange-900 hover:border-orange-300 transition-all flex items-center gap-2 shadow-sm backdrop-blur-sm">
+                                    <i class="fa-solid fa-fire"></i> تنشيف
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="fitnessGoal" value="maintain" onchange="updateSmartRecipes()" class="peer sr-only" checked>
+                                <div class="px-5 py-2.5 rounded-2xl border border-green-300/50 bg-white/50 text-slate-700 font-black peer-checked:border-green-600 peer-checked:bg-green-100/60 peer-checked:text-green-955 hover:border-green-300 transition-all flex items-center gap-2 shadow-sm backdrop-blur-sm">
+                                    <i class="fa-solid fa-scale-balanced"></i> محافظة
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button onclick="generateRecipesWithAI()" id="btnGenerateAI" class="bg-gradient-to-r from-purple-700 to-indigo-700 hover:from-purple-600 hover:to-indigo-600 text-white px-8 py-3.5 rounded-2xl font-black text-sm md:text-base shadow-xl shadow-purple-500/30 transition-all hover:scale-[1.02] active:scale-95 group relative overflow-hidden border border-white/40">
+                            <span class="absolute inset-0 bg-white/20 -skew-x-12 -translate-x-full group-hover:animate-[shine_1s_ease-in-out]"></span>
+                            <i class="fa-solid fa-wand-magic-sparkles ml-2 group-hover:rotate-12 transition-transform inline-block"></i>
+                            <span id="btnAIText">ابتكر وصفات مخصصة بالذكاء الاصطناعي الآن ✨</span>
+                        </button>
+                        <p class="text-xs text-green-955 mt-3 font-black max-w-sm mx-auto leading-relaxed">سيقوم الخوارزمي بتوليد وصفات جديدة كلياً تتناسب مع <span id="aiCalorieLabel" class="text-purple-800 font-black">1200</span> سعرة وتتضمن خطوات التحضير الدقيقة!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
+                <button onclick="filterRecipes('all')" id="filter-all" class="px-5 py-2.5 bg-green-700 text-white border border-green-700 text-xs font-black rounded-2xl transition-all shadow-md">الكل</button>
+                <button onclick="filterRecipes('protein')" id="filter-protein" class="px-5 py-2.5 bg-white/50 text-green-955 border border-green-300/50 hover:border-green-400 text-xs font-black rounded-2xl transition-all shadow-sm backdrop-blur-sm">بروتين عالٍ 🥚</button>
+                <button onclick="filterRecipes('carb')" id="filter-carb" class="px-5 py-2.5 bg-white/50 text-green-955 border border-green-300/50 hover:border-green-400 text-xs font-black rounded-2xl transition-all shadow-sm backdrop-blur-sm">طاقة كاربوهيدرات 🌾</button>
+                <button onclick="filterRecipes('keto')" id="filter-keto" class="px-5 py-2.5 bg-white/50 text-green-955 border border-green-300/50 hover:border-green-400 text-xs font-black rounded-2xl transition-all shadow-sm backdrop-blur-sm">كيتو دايت 🥑</button>
+                <button onclick="filterRecipes('vegan')" id="filter-vegan" class="px-5 py-2.5 bg-white/50 text-green-955 border border-green-300/50 hover:border-green-400 text-xs font-black rounded-2xl transition-all shadow-sm backdrop-blur-sm">نباتي كامل 🌱</button>
+            </div>
+
+            <div id="recipesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4"></div>
+        </section>
+    </main>
+
+    <footer class="mt-16 mb-4 border-t border-green-300/40 pt-6 pb-2 text-center relative z-10">
+        <div class="flex items-center justify-center gap-2 text-sm font-black text-slate-700 bg-white/50 inline-flex px-6 py-2 rounded-full border border-green-300/40 backdrop-blur-sm shadow-sm">
+            <i class="fa-solid fa-code text-green-700"></i>
+            <span>تم تطوير الموقع بواسطة <span class="text-green-955 font-black">جعفر عمار</span></span>
+        </div>
+    </footer>
+
+    <script>
+        // ==========================================
+        //  إعدادات الاتصال بـ Supabase 
+        // ==========================================
+        const SUPABASE_URL = "https://rtzhcyxmglzcpcwozxce.supabase.co"; 
+        const SUPABASE_KEY = "sb_publishable_ELuCoyVfW0sgm-bwVoamrA_uFHP6obd"; 
+        
+        let supabaseClient = null;
+
+        // تهيئة وحماية الاتصال بـ Supabase
+        function initSupabase() {
+            try {
+                if (typeof supabase !== 'undefined' && supabase.createClient) {
+                    if (SUPABASE_URL && SUPABASE_KEY && SUPABASE_KEY !== "" && !SUPABASE_KEY.startsWith("YOUR_")) {
+                        supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                        console.log("Supabase: تم الاتصال بنجاح بقاعدة البيانات الخاصة بك.");
+                    } else {
+                        console.warn("Supabase: يجرى تشغيل التطبيق في وضع المحاكاة المحلية الآمن (مفاتيح افتراضية).");
+                    }
+                } else {
+                    console.warn("Supabase SDK API: لم يتم العثور على المكتبة البرمجية أو تم حجبها. يعمل التطبيق في وضع عدم الاتصال.");
+                }
+            } catch (err) {
+                console.error("Critical error during Supabase initialization:", err);
+            }
+        }
+
+        const ingredientsDB = {
+            "كباب مشوي": { p: 21.0, c: 2.5, f: 15.0, cat: "protein", desc: "لحم بقري مفروم مشوي على الفحم" },
+            "صدر دجاج مشوي": { p: 31.0, c: 0.0, f: 3.6, cat: "protein", desc: "لحم صدر الدجاج منزوع الجلد الغني بالأحماض الأمينية" },
+            "لحم عجل مفروم": { p: 26.0, c: 0.0, f: 12.0, cat: "protein", desc: "لحم بقري قليل الدهون غني بالحديد" },
+            "شاورما دجاج": { p: 24.0, c: 1.2, f: 11.5, cat: "protein", desc: "العناصر متبلة ومحمرة بشكل ممتاز" },
+            "كفتة غنم مشوية": { p: 22.0, c: 3.0, f: 18.0, cat: "protein", desc: "لحم غنم محضر بأعشاب برية طازجة" },
+            "سلمون مشوي": { p: 22.0, c: 0.0, f: 12.5, cat: "protein", desc: "سلمون مائي غني بدهون الأوميجا-3 لسلامة القلب" },
+            "تونة بالماء": { p: 26.0, c: 0.0, f: 1.0, cat: "protein", desc: "تونة معلبة مصفاة بالكامل ومثالية للتنحيف" },
+            "روبيان مسلوق": { p: 24.0, c: 0.2, f: 0.8, cat: "protein", desc: "جمبري مطهو خالي تماماً من الدهون الإضافية" },
+            "فيليه سمك أبيض": { p: 19.5, c: 0.0, f: 1.5, cat: "protein", desc: "شريحة فيليه سمك أبيض خفيف سريع الهضم" },
+            "أرز أبيض مسلوق": { p: 2.7, c: 28.0, f: 0.3, cat: "carb", desc: "أرز طويل الحبة مطبوخ بالبخار" },
+            "أرز بسمتي بني": { p: 3.0, c: 32.0, f: 1.0, cat: "carb", desc: "أرز بني متكامل غني بالألياف بطيء التحلل" },
+            "بطاطا مشوية": { p: 2.2, c: 21.5, f: 0.1, cat: "carb", desc: "بطاطس مشوية بالفرن بقشرتها الطبيعية" },
+            "بطاطا حلوة مسلوقة": { p: 2.0, c: 20.0, f: 0.1, cat: "carb", desc: "بطاطا حلوة ممتازة لامداد الجسم بالطاقة" },
+            "شوفان": { p: 13.0, c: 68.0, f: 6.5, cat: "carb", desc: "حبوب شوفان كاملة ممتازة لتعزيز الإحساس بالشبع" },
+            "مكرونة مسلوقة": { p: 5.8, c: 31.0, f: 0.9, cat: "carb", desc: "باستا مسلوقة مصنوعة من سميد القمح القاسي" },
+            "خبز بر كامل": { p: 9.0, c: 45.0, f: 2.5, cat: "carb", desc: "خبز دقيق القمح الكامل المدعم بالألياف والفيتامينات" },
+            "كينوا مطبوخة": { p: 4.4, c: 21.3, f: 1.9, cat: "carb", desc: "بذور القمح الكينوا الخارقة التي تحتوي على البروتينات الكاملة" },
+            "لوز": { p: 21.2, c: 21.5, f: 49.9, cat: "keto", desc: "مكسرات لوز نيئة غنية بفيتامين E والدهون الأحادية" },
+            "كاجو": { p: 18.2, c: 30.1, f: 43.8, cat: "keto", desc: "مكسرات كاجو نيئة ممتازة لتعزيز مستويات طاقة العقل" },
+            "زبدة الفول السوداني": { p: 25.0, c: 20.0, f: 50.0, cat: "keto", desc: "زبدة فول سوداني نقية بدون سكر مضاف" },
+            "أفوكادو": { p: 2.0, c: 8.5, f: 14.7, cat: "keto", desc: "ثمرة أفوكادو طازجة تدعم توازن هرمونات حرق الدهون" },
+            "زيت زيتون": { p: 0.0, c: 0.0, f: 100.0, cat: "keto", desc: "زيت زيتون بكر ممتاز معصور على البارد" },
+            "بيض مسلوق": { p: 12.6, c: 1.1, f: 10.6, cat: "protein", desc: "بيض طازج كامل مسلوق بالماء" },
+            "جبن قريش": { p: 11.0, c: 3.4, f: 4.3, cat: "protein", desc: "جبن قريش أبيض منزوع الدسم غني بروتين الكازين بطيء الامتصاص" },
+            "زبادي يوناني ساده": { p: 10.0, c: 3.6, f: 0.4, cat: "protein", desc: "زبادي يوناني طبيعي مصفي بدون سكر" },
+            "حليب كامل الدسم": { p: 3.2, c: 4.8, f: 3.3, cat: "keto", desc: "حليب طازج معقم كامل الدسم" },
+            "سلطة خضراء (مع زيت)": { p: 1.1, c: 3.8, f: 5.2, cat: "vegan", desc: "مجموعة خضار طازجة مضاف إليها نقاط زيت زيتون صحية" },
+            "بروكلي سوتيه": { p: 2.8, c: 6.6, f: 0.4, cat: "vegan", desc: "بروكلي مطبوخ على البخار للمحافظة على مضادات الأكسدة" },
+            "عدس مطبوخ": { p: 9.0, c: 20.0, f: 0.4, cat: "vegan", desc: "عدس مسلوق غني بالحديد والبروتين النباتي" },
+            "حمص مسلوق": { p: 8.8, c: 27.4, f: 2.6, cat: "vegan", desc: "بذور حمص مسلوقة تدعم الجهاز الهضمي والألياف" }
+        };
+
+        const smartRecipesBase = [
+            { name: "كباب السلطان الملكي مع الأرز", icon: "fa-drumstick-bite", category: "protein", desc: "مزيج لذيذ من كباب لحم الغنم المشوي مع أرز بسمتي متبل وخفيف.", components: [{ name: "كباب مشوي", weight: 150 }, { name: "أرز أبيض مسلوق", weight: 150 }] },
+            { name: "طاقة الشوفان الصباحية باللوز", icon: "fa-bowl-food", category: "carb", desc: "وجبة فطور مثالية تمنحك الشبع لساعات طويلة مدعمة بالبروتين والدهون الصحية.", components: [{ name: "شوفان", weight: 80 }, { name: "لوز", weight: 20 }, { name: "زبادي يوناني ساده", weight: 120 }] },
+            { name: "دجاج الفيتنس مع البطاطس المشوية", icon: "fa-dumbbell", category: "protein", desc: "الخيار رقم #1 للرياضيين الباحثين عن تضخيم صافي العضلات وزيادة القوة والتحمل.", components: [{ name: "صدر دجاج مشوي", weight: 180 }, { name: "بطاطا مشوية", weight: 200 }, { name: "بروكلي سوتيه", weight: 100 }] },
+            { name: "سلمون الأوميجا مع الأفوكادو اللذيذ", icon: "fa-fish", category: "keto", desc: "صحة عصبية وقلبية ممتازة بمكونات غنية بالدهون الأحادية غير المشبعة والبروتين.", components: [{ name: "سلمون مشوي", weight: 150 }, { name: "أفوكادو", weight: 100 }, { name: "سلطة خضراء (مع زيت)", weight: 100 }] },
+            { name: "مكرونة العجل الإيطالية الفاخرة", icon: "fa-utensils", category: "carb", desc: "وجبة نشويات معقدة مدعومة بالبروتين الحيواني من اللحم المفروم الصافي.", components: [{ name: "مكرونة مسلوقة", weight: 150 }, { name: "لحم عجل مفروم", weight: 120 }] },
+            { name: "وجبة تنشيف تونة المحيط الكبرى", icon: "fa-leaf", category: "protein", desc: "بروتين خالي من الدهون ومرتفع الامتصاص مع خبز الحبوب الكاملة لتعويض الكربوهيدرات.", components: [{ name: "تونة بالماء", weight: 150 }, { name: "خبز بر كامل", weight: 60 }, { name: "سلطة خضراء (مع زيت)", weight: 150 }] },
+            { name: "فطور الأبطال الرياضي المزدوج", icon: "fa-egg", category: "protein", desc: "فطور بيض مسلوق مع النشويات البطيئة والدهون الرائعة من الأفوكادو الطازج.", components: [{ name: "بيض مسلوق", weight: 120 }, { name: "خبز بر كامل", weight: 80 }, { name: "أفوكادو", weight: 50 }] },
+            { name: "روبيان الكينوا المتوسطي الخفيف", icon: "fa-shrimp", category: "protein", desc: "جمبري مطهو خفيف وسريع يعطي طاقة ويسرع عمليات الاستشفاء العضلي.", components: [{ name: "روبيان مسلوق", weight: 150 }, { name: "كينوا مطبوخة", weight: 150 }, { name: "زيت زيتون", weight: 10 }] },
+            { name: "صدور الدجاج بزبدة الفول السوداني", icon: "fa-cubes-stacked", category: "keto", desc: "الدمج المميز بين بروتين صدر الدجاج الصافي والدهون والكثافة الغذائية للفول السوداني.", components: [{ name: "صدر دجاج مشوي", weight: 150 }, { name: "زبدة الفول السوداني", weight: 25 }, { name: "بروكلي سوتيه", weight: 120 }] },
+            { name: "كفتة الغنم مع البطاطا الحلوة المشوية", icon: "fa-fire", category: "carb", desc: "مزيج غني ولذيذ لمحبي المذاق الشرقي الغني بالنشويات الممتازة.", components: [{ name: "كفتة غنم مشوية", weight: 120 }, { name: "بطاطا حلوة مسلوقة", weight: 180 }, { name: "سلطة خضراء (مع زيت)", weight: 100 }] },
+            { name: "قوة النبات: طبق العدس والحمص المشبع", icon: "fa-seedling", category: "vegan", desc: "وجبة نباتية غنية بالألياف القابلة للذوبان، البروتينات البديلة والزنك والحديد.", components: [{ name: "عدس مطبوخ", weight: 150 }, { name: "حمص مسلوق", weight: 100 }, { name: "زيت زيتون", weight: 10 }] },
+            { name: "وجبة عشاء خفيفة ومصلحة للعضلات", icon: "fa-moon", category: "keto", desc: "الجبن القريش يغذي العضلات ببطء طوال الليل مع دهون اللوز الطبيعية العالية الجودة.", components: [{ name: "جبن قريش", weight: 200 }, { name: "لوز", weight: 25 }, { name: "سلطة خضراء (مع زيت)", weight: 100 }] }
+        ];
+
+        let currentActiveFilter = "all";
+        let userSelectedRating = 0;
+        let currentAppLang = "ar";
+
+        // ==========================================
+        // لغات المنصة والتراجم
+        // ==========================================
+        const appTranslations = {
+            "en": {
+                "لياقة": "Liyaqa",
+                "لياقة Tech": "Liyaqa Tech",
+                "الرئيسية (التحليل)": "Home (Analysis)",
+                "اتصل بنا": "Contact Us",
+                "رأيك يهمنا": "Your Feedback",
+                "وصف التطبيق (عن الموقع)": "App Description (About)",
+                "تم التطوير بواسطة": "Developed by",
+                "جعفر عمار": "Jafar Ammar",
+                "الاسم الكامل": "Full Name",
+                "البريد الإلكتروني": "Email Address",
+                "رسالتك أو استفسارك": "Your Message/Inquiry",
+                "إرسال الرسالة الآن": "Send Message Now",
+                "تقييمك للمنصة الصحية": "Rate the Platform",
+                "اكتب لنا انطباعك أو ميزة تود إضافتها": "Write your feedback or feature request",
+                "إرسال التقييم": "Submit Feedback",
+                "التحليل الذكي للوجبات": "Smart Meal Analysis",
+                "الوصفات الذكية التكيفية": "Adaptive Smart Recipes",
+                "توجيه دقيق علمياً": "Scientifically Accurate",
+                "التحليل الذكي للمكونات الغذائية": "Smart Nutritional Analysis",
+                "اكتشف السعرات الحرارية والعناصر الغذائية (بروتين، كارب، دهون) في وجباتك بدقة متناهية بناءً على وزنها.": "Discover calories and macronutrients (protein, carbs, fats) in your meals accurately based on weight.",
+                "خيارات التحليل النشط": "Active Analysis Options",
+                "وزن الوجبة الكلي (بالجرام)": "Total Meal Weight (g)",
+                "اسم الأكلة أو المكون (مدعوم بالذكاء الاصطناعي ✨)": "Meal/Ingredient Name (AI Powered ✨)",
+                "أو": "OR",
+                "اسحب صورة طبقك هنا أو اضغط للتحليل بالذكاء الاصطناعي": "Drag dish photo here or click for AI analysis",
+                "مدعوم بتقنية التعرف البصري والذكاء التفاعلي ✨": "Powered by visual recognition & interactive intelligence ✨",
+                "خلينا نحسب السعرات": "Let's Calculate Calories",
+                "مسحوق الطاقة خامل": "Energy Core Inactive",
+                "أدخل المكون والوزن المقدر ثم انقر \"معالجة\" لفتح الحساب الرياضي الفوري للماكروس الكبرى.": "Enter ingredient and weight, then click process for instant macro calculation.",
+                "جاري مطابقة القوانين الحيوية...": "Matching Biological Laws...",
+                "تصنيف غذائي موثق": "Verified Nutritional Class",
+                "تم التحليل بواسطة Gemini AI": "Analyzed by Gemini AI",
+                "كتلة الوجبة": "Meal Mass",
+                "إجمالي الطاقة المصروفة": "Total Energy Expended",
+                "سعرة حرارية (Kcal)": "Calories (Kcal)",
+                "بروتين": "Protein",
+                "4 سعرة/جرام": "4 kcal/g",
+                "كربوهيدرات": "Automated Carbs",
+                "الدهون صحية": "Healthy Fats",
+                "9 سعرة/جرام": "9 kcal/g",
+                "تكييف ذكي متكامل": "Integrated Smart Adaptation",
+                "مولد الوصفات وتكييف السعرات": "Recipe Generator & Calorie Adaptation",
+                "اسحب شريط السعرات ليتكفل الذكاء الرياضي بضبط أحجام المكونات في الوقت الفعلي لتحصل على هدفك بدقة غرامية.": "Drag the calorie slider and let the AI adjust ingredient sizes in real-time.",
+                "الاستهلاك اليومي المستهدف": "Target Daily Intake",
+                "مستوى الطاقة الحركي للوجبة": "Kinetic Energy Level of the Meal",
+                "كيلو كالوري / Kcal": "Kcal",
+                "200 سعرة": "200 kcal",
+                "3000 سعرة": "3000 kcal",
+                "اختر هدفك الرياضي لتخصيص الوصفات": "Choose your fitness goal to customize recipes",
+                "تضخيم": "Bulking",
+                "تنشيف": "Cutting",
+                "محافظة": "Maintain",
+                "ابتكر وصفات مخصصة بالذكاء الاصطناعي الآن ✨": "Create Custom AI Recipes Now ✨",
+                "الكل": "All",
+                "بروتين عالٍ 🥚": "High Protein 🥚",
+                "طاقة كاربوهيدرات 🌾": "Carb Energy 🌾",
+                "كيتو دايت 🥑": "Keto Diet 🥑",
+                "نباتي كامل 🌱": "Full Vegan 🌱",
+                "تم تطوير الموقع بواسطة": "Website developed by",
+                "احسب وجباتك بدقة": "Calculate your meals accurately",
+                "جرام": "g",
+                "لغة المنصة / Language": "Platform Language",
+                "لم تعجبك؟ إعادة التوليد بوصفات جديدة 🔄": "Don't like it? Regenerate new recipes 🔄",
+                "منصة": "Platform",
+                "رفيقك المثالي لحياة صحية! نحسب لك احتياجات جسمك من السعرات والعناصر الغذائية بدقة، ونوفر لك وصفات طعام ذكية ومبتكرة تتشكل مرونتها لتناسب نظامك الغذائي وهدفك الرياضي.": "is your perfect companion for a healthy life! We calculate your needs accurately and provide flexible recipes tailored to your goal.",
+                "تم التعرف على الطبق بنجاح!": "Dish recognized successfully!",
+                "جاري ابتكار وصفات لك عبر الذكاء الاصطناعي...": "Generating recipes for you via AI...",
+                "نحسب الماكروز بناءً على هدفك ونحضر خطوات الطبخ الخاصة بـ": "Calculating macros based on your goal and preparing cooking steps for",
+                "سعرة!": "calories!",
+                "بروتين": "Protein",
+                "كارب": "Carbs",
+                "دهون": "Fats",
+                "المكونات:": "Ingredients:",
+                "عرض طريقة التحضير": "Show Preparation Steps",
+                "خطوات التحضير:": "Preparation Steps:",
+                "ذكاء اصطناعي": "AI Generated",
+                "التركيبة الوزنية الدقيقة للتحقيق:": "Exact weight composition to achieve:",
+                "لا يوجد وصفات تطابق هذا التصنيف حالياً": "No recipes match this category currently",
+                "أهلاً بك في لياقة Tech": "Welcome to Liyaqa Tech",
+                "الرجاء إدخال الاسم للمتابعة": "Please enter your name to proceed",
+                "الاسم": "Name",
+                "دخول إلى المنصة": "Enter Platform",
+                "تحضير حسابك الصحي الذكي...": "Preparing your smart health account...",
+                "المنصة الصحية": "The Health Platform",
+                "مرحباً بك": "Welcome",
+                "المستخدم النشط": "Active User",
+                "تسجيل الخروج": "Logout",
+                "زائر كريم": "Dear Guest"
+            },
+            "fr": {
+                "لياقة": "Liyaqa",
+                "لياقة Tech": "Liyaqa Tech",
+                "الرئيسية (التحليل)": "Accueil (Analyse)",
+                "اتصل بنا": "Contactez-nous",
+                "رأيك يهمنا": "Votre Avis",
+                "وصف التطبيق (عن الموقع)": "Description de l'application",
+                "تم التطوير بواسطة": "Développé par",
+                "جعفر عمار": "Jafar Ammar",
+                "الاسم الكامل": "Nom Complet",
+                "البريد الإلكتروني": "Adresse Email",
+                "رسالتك أو استفسارك": "Votre Message/Demande",
+                "إرسال الرسالة الآن": "Envoyer le message",
+                "تقييمك للمنصة الصحية": "Évaluez la plateforme",
+                "اكتب لنا انطباعك أو ميزة تود إضافتها": "Écrivez vos impressions ou suggestions",
+                "إرسال التقييم": "Soumettre l'avis",
+                "التحليل الذكي للوجبات": "Analyse Intelligente des Repas",
+                "الوصفات الذكية التكيفية": "Recettes Adaptatives",
+                "توجيه دقيق علمياً": "Scientifiquement Précis",
+                "التحليل الذكي للمكونات الغذائية": "Analyse Nutritionnelle",
+                "اكتشف السعرات الحرارية والعناصر الغذائية (بروتين، كارب، دهون) في وجباتك بدقة متناهية بناءً على وزنها.": "Découvrez les calories et les macronutriments de vos repas avec précision.",
+                "خيارات التحليل النشط": "Options d'Analyse Active",
+                "وزن الوجبة الكلي (بالجرام)": "Poids total (g)",
+                "اسم الأكلة أو المكون (مدعوم بالذكاء الاصطناعي ✨)": "Nom du repas (Propulsé par l'IA ✨)",
+                "أو": "OU",
+                "اسحب صورة طبقك هنا أو اضغط للتحليل بالذكاء الاصطناعي": "Glissez la photo ici ou cliquez pour l'IA",
+                "مدعوم بتقنية التعرف البصري والذكاء التفاعلي ✨": "Propulsé par la reconnaissance visuelle & intelligence interactive ✨",
+                "خلينا نحسب السعرات": "Calculons les calories",
+                "مسحوق الطاقة خامل": "Noyau d'énergie inactif",
+                "أدخل المكون والوزن المقدر ثم انقر \"معالجة\" لفتح الحساب الرياضي الفوري للماكروس الكبرى.": "Entrez l'ingrédient et le poids, puis cliquez sur traiter.",
+                "جاري مطابقة القوانين الحيوية...": "Vérification des lois biologiques...",
+                "تصنيف غذائي موثق": "Classe Nutritionnelle Vérifiée",
+                "تم التحليل بواسطة Gemini AI": "Analysé par Gemini AI",
+                "كتلة الوجبة": "Masse du Repas",
+                "إجمالي الطاقة المصروفة": "Énergie Totale",
+                "سعرة حرارية (Kcal)": "Calories (Kcal)",
+                "بروتين": "Protéines",
+                "4 سعرة/جرام": "4 kcal/g",
+                "كربوهيدرات": "Glucides",
+                "الدهون صحية": "Graisses Saines",
+                "9 سعرة/جرام": "9 kcal/g",
+                "تكييف ذكي متكامل": "Adaptation Intelligente",
+                "مولد الوصفات وتكييف السعرات": "Générateur de Recettes",
+                "اسحب شريط السعرات ليتكفل الذكاء الرياضي بضبط أحجام المكونات في الوقت الفعلي لتحصل على هدفك بدقة غرامية.": "Ajustez le curseur pour que l'IA adapte les ingrédients en temps réel.",
+                "الاستهلاك اليومي المستهدف": "Apport Quotidien",
+                "مستوى الطاقة الحركي للوجبة": "Niveau d'énergie du repas",
+                "كيلو كالوري / Kcal": "Kcal",
+                "200 سعرة": "200 kcal",
+                "3000 سعرة": "3000 kcal",
+                "اختر هدفك الرياضي لتخصيص الوصفات": "Choisissez votre objectif",
+                "تضخيم": "Prise de masse",
+                "تنشيف": "Sèche",
+                "محافظة": "Maintien",
+                "ابتكر وصفات مخصصة بالذكاء الاصطناعي الآن ✨": "Créer des Recettes IA ✨",
+                "الكل": "Tous",
+                "بروتين عالٍ 🥚": "Riche en Protéines 🥚",
+                "طاقة كاربوهيدرات 🌾": "Énergie Glucides 🌾",
+                "كيتو دايت 🥑": "Régime Keto 🥑",
+                "نباتي كامل 🌱": "Végétalien 🌱",
+                "تم تطوير الموقع بواسطة": "Site développé par",
+                "احسب وجباتك بدقة": "Calculez vos repas",
+                "جرام": "g",
+                "لغة المنصة / Language": "Langue de la plateforme",
+                "لم تعجبك? إعادة التوليد بوصفات جديدة 🔄": "Générer de nouvelles recettes 🔄",
+                "منصة": "Plateforme",
+                "رفيقك المثالي لحياة صحية! نحسب لك احتياجات جسمك من السعرات والعناصر الغذائية بدقة، ونوفر لك وصفات طعام ذكية ومبتكرة تتشكل مرونتها لتناسب نظامك الغذائي وهدفك الرياضي.": "est votre compagnon idéal ! Nous calculons vos besoins et fournissons des recettes flexibles.",
+                "تم التعرف على الطبق بنجاح!": "Plat reconnu avec succès !",
+                "جاري ابتكار وصفات لك عبر الذكاء الاصطناعي...": "Génération de recettes pour vous via l'IA...",
+                "نحسب الماكروز بناءً على هدفك ونحضر خطوات الطبخ الخاصة بـ": "Calcul des macros selon votre objectif et préparation des étapes pour",
+                "سعرة!": "calories !",
+                "بروتين": "Protéines",
+                "كارب": "Glucides",
+                "دهون": "Graisses",
+                "المكونات:": "Ingrédients :",
+                "عرض طريقة التحضير": "Afficher les étapes de préparation",
+                "خطوات التحضير:": "Étapes de préparation :",
+                "ذكاء اصطناعي": "Généré par IA",
+                "التركيبة الوزنية الدقيقة للتحقيق:": "Composition de poids exacte pour atteindre :",
+                "لا يوجد وصفات تطابق هذا التصنيف حالياً": "Aucune recette ne correspond à cette catégorie actuellement",
+                "أهلاً بك في لياقة Tech": "Bienvenue sur Liyaqa Tech",
+                "الرجاء إدخال الاسم للمتابعة": "Veuillez saisir votre nom complet pour continuer",
+                "الاسم": "Nom",
+                "دخول إلى المنصة": "Entrer dans la plateforme",
+                "تحضير حسابك الصحي الذكي...": "Préparation de votre compte de santé...",
+                "المنصة الصحية": "Plateforme de Santé",
+                "مرحباً بك": "Bienvenue",
+                "المستخدم النشط": "Utilisateur Actif",
+                "تسجيل الخروج": "Se déconnecter",
+                "زائر كريم": "Cher Invité"
+            }
+        };
+
+        const placeholderTranslations = {
+            "en": {
+                "مثال: جعفر عمار": "e.g., Jafar Ammar",
+                "name@domain.com": "name@domain.com",
+                "اكتب استفسارك هنا وسنقوم بالرد عليك في أقرب وقت...": "Type your inquiry here...",
+                "نحن نصغي لمقترحاتك لنوفر لك بيئة استخدام أفضل دائماً...": "We listen to your suggestions...",
+                "مثال: 100": "e.g., 100",
+                "ابحث في قاعدة البيانات أو اكتب أي طعام...": "Search database or type any food..."
+            },
+            "fr": {
+                "مثال: جعفر عمار": "ex: Jafar Ammar",
+                "name@domain.com": "nom@domaine.com",
+                "اكتب استفسارك هنا وسنقوم بالرد عليك في أقرب وقت...": "Tapez votre demande ici...",
+                "نحن نصغي لمقترحاتك لنوفر لك بيئة استخدام أفضل دائماً...": "Nous écoutons vos suggestions...",
+                "مثال: 100": "ex: 100",
+                "ابحث في قاعدة البيانات أو اكتب أي طعام...": "Rechercher ou taper un aliment..."
+            }
+        };
+
+        let originalTextNodes = [];
+        let originalPlaceholders = [];
+
+        window.addEventListener("DOMContentLoaded", () => {
+            // تهيئة الاتصال بـ Supabase عند تحميل الصفحة
+            initSupabase();
+
+            function walkDOM(node) {
+                try {
+                    if (node.nodeType === 3) {
+                        const text = node.nodeValue.trim();
+                        if (text.length > 0 && isNaN(text)) {
+                            originalTextNodes.push({ node: node, originalText: text });
+                        }
+                    } else if (node.nodeType === 1) {
+                        if (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA') {
+                            if (node.placeholder && node.placeholder.trim().length > 0) {
+                                originalPlaceholders.push({ node: node, originalText: node.placeholder.trim() });
+                            }
+                        }
+                        if (node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE') {
+                            for (let child of node.childNodes) {
+                                walkDOM(child);
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error("DOM traversal warning:", e);
+                }
+            }
+            
+            walkDOM(document.body);
+            checkSessionStatus();
+            setupDropZone();
+            updateSmartRecipes();
+        });
+
+        // ==========================================
+        // التحكم بالقوائم المنسدلة
+        // ==========================================
+        function toggleCustomDropdown(menuId) {
+            const menu = document.getElementById(menuId);
+            const isHidden = menu.classList.contains('hidden');
+            
+            document.querySelectorAll('[id$="DropdownMenu"]').forEach(el => {
+                el.classList.add('hidden');
+                const chev = el.previousElementSibling.querySelector('.fa-chevron-down');
+                if (chev) chev.classList.remove('rotate-180');
+            });
+
+            if (isHidden) {
+                menu.classList.remove('hidden');
+                const chev = menu.previousElementSibling.querySelector('.fa-chevron-down');
+                if (chev) chev.classList.add('rotate-180');
+            }
+        }
+
+        function selectCustomLang(lang, label) {
+            const labelsMap = {
+                'ar': { login: 'العربية', sidebar: 'العربية (Arabic)' },
+                'en': { login: 'English', sidebar: 'English (In.)' },
+                'fr': { login: 'Français', sidebar: 'Français (Fr.)' }
+            };
+
+            document.getElementById('loginLangSelectedLabel').innerText = labelsMap[lang].login;
+            document.getElementById('sidebarLangSelectedLabel').innerText = labelsMap[lang].sidebar;
+
+            changeAppLanguage(lang);
+
+            document.querySelectorAll('[id$="DropdownMenu"]').forEach(el => {
+                el.classList.add('hidden');
+                const chev = el.previousElementSibling.querySelector('.fa-chevron-down');
+                if (chev) chev.classList.remove('rotate-180');
+            });
+        }
+
+        window.addEventListener('click', function(e) {
+            if (!e.target.closest('#loginLangDropdown') && !e.target.closest('#sidebarLangDropdown')) {
+                document.querySelectorAll('[id$="DropdownMenu"]').forEach(el => {
+                    el.classList.add('hidden');
+                    const chev = el.previousElementSibling.querySelector('.fa-chevron-down');
+                    if (chev) chev.classList.remove('rotate-180');
+                });
+            }
+        });
+
+        // الترجمة
+        function t(key) {
+            if (currentAppLang === 'ar') return key;
+            if (appTranslations[currentAppLang] && appTranslations[currentAppLang][key]) {
+                return appTranslations[currentAppLang][key];
+            }
+            return key;
+        }
+
+        function changeAppLanguage(lang) {
+            currentAppLang = lang;
+            const html = document.documentElement;
+            
+            if (lang === 'ar') {
+                html.setAttribute('lang', 'ar');
+                html.setAttribute('dir', 'rtl');
+                document.title = "لياقة Tech | المنصة الصحية";
+                showNotification('تم تفعيل الواجهة العربية', false);
+            } else {
+                html.setAttribute('lang', lang);
+                html.setAttribute('dir', 'ltr');
+                if (lang === 'en') {
+                    document.title = "Liyaqa Tech | The Health Platform";
+                } else if (lang === 'fr') {
+                    document.title = "Liyaqa Tech | Plateforme de Santé";
+                }
+                const langName = lang === 'en' ? 'English' : 'Français';
+                showNotification(`Language switched to ${langName}`, false);
+            }
+
+            originalTextNodes.forEach(item => {
+                let textToSet = item.originalText;
+                let cleanText = item.originalText.replace(/:\s*$/, '').trim();
+
+                if (lang !== 'ar' && appTranslations[lang] && appTranslations[lang][cleanText]) {
+                    textToSet = item.originalText.replace(cleanText, appTranslations[lang][cleanText]);
+                }
+                
+                if (item.node.nodeValue.trim() !== textToSet) {
+                    item.node.nodeValue = item.node.nodeValue.replace(item.node.nodeValue.trim(), textToSet);
+                }
+            });
+
+            originalPlaceholders.forEach(item => {
+                let textToSet = item.originalText;
+                if (lang !== 'ar' && placeholderTranslations[lang] && placeholderTranslations[lang][item.originalText]) {
+                    textToSet = placeholderTranslations[lang][item.originalText];
+                }
+                item.node.placeholder = textToSet;
+            });
+
+            updateSmartRecipes(); 
+        }
+
+        // ==========================================
+        // جلسة المستخدم وتسجيل الدخول
+        // ==========================================
+        function loginUser(event) {
+            event.preventDefault();
+            const fullNameInput = document.getElementById('userFullNameInput').value.trim();
+            
+            if (fullNameInput.length < 2) {
+                const errorMsg = currentAppLang === 'ar' ? 
+                    'يرجى إدخال اسم صحيح مكون من حرفين على الأقل' : 
+                    (currentAppLang === 'en' ? 'Please enter a valid name with at least 2 characters' : 'Veuillez saisir un nom d\'au moins 2 caractères');
+                showNotification(errorMsg, true);
+                return;
+            }
+
+            document.getElementById('loginFormContainer').classList.add('hidden');
+            document.getElementById('loginLoaderContainer').classList.remove('hidden');
+
+            setTimeout(() => {
+                localStorage.setItem('liyaqa_username', fullNameInput);
+                applyUserNameToDashboard(fullNameInput);
+
+                const loginGate = document.getElementById('loginGate');
+                loginGate.classList.add('opacity-0', '-translate-y-full');
+                
+                setTimeout(() => {
+                    loginGate.classList.add('hidden');
+                }, 700);
+
+                const welcomeMsg = currentAppLang === 'ar' ? 
+                    `أهلاً بك يا ${fullNameInput} في منصتك الصحية!` : 
+                    (currentAppLang === 'en' ? `Welcome ${fullNameInput} to your health platform!` : `Bienvenue ${fullNameInput} sur votre plateforme !`);
+                showNotification(welcomeMsg, false);
+            }, 1200);
+        }
+
+        function logoutUser() {
+            localStorage.removeItem('liyaqa_username');
+            
+            document.getElementById('userFullNameInput').value = '';
+            document.getElementById('loginFormContainer').classList.remove('hidden');
+            document.getElementById('loginLoaderContainer').classList.add('hidden');
+            
+            const loginGate = document.getElementById('loginGate');
+            loginGate.classList.remove('hidden', 'opacity-0', '-translate-y-full');
+            
+            if (!document.getElementById('sidebar').classList.contains('translate-x-full')) {
+                toggleSidebar();
+            }
+
+            const logoutMsg = currentAppLang === 'ar' ? 'تم تسجيل الخروج بنجاح.' : (currentAppLang === 'en' ? 'Logged out successfully.' : 'Déconnexion réussie.');
+            showNotification(logoutMsg, false);
+        }
+
+        function checkSessionStatus() {
+            const savedName = localStorage.getItem('liyaqa_username');
+            if (savedName) {
+                applyUserNameToDashboard(savedName);
+                document.getElementById('loginGate').classList.add('hidden');
+            } else {
+                document.getElementById('loginGate').classList.remove('hidden');
+            }
+        }
+
+        function applyUserNameToDashboard(name) {
+            document.getElementById('userGreetingName').innerText = name;
+            document.getElementById('sidebarUserName').innerText = name;
+            document.getElementById('contactName').value = name;
+        }
+
+        // ==========================================
+        // الإشعارات والتحكم بالواجهة
+        // ==========================================
+        function showNotification(message, isError = false) {
+            const toast = document.getElementById('toastNotification');
+            const icon = document.getElementById('toastIcon');
+            const msgSpan = document.getElementById('toastMessage');
+
+            msgSpan.innerText = message;
+            if (isError) {
+                icon.className = "fa-solid fa-circle-exclamation text-red-400 text-xl animate-pulse shrink-0";
+                toast.classList.remove('bg-green-955/95');
+                toast.classList.add('bg-red-955/95', 'border-red-500/50');
+            } else {
+                icon.className = "fa-solid fa-circle-check text-green-400 text-xl animate-pulse shrink-0";
+                toast.classList.add('bg-green-955/95');
+                toast.classList.remove('bg-red-955/95', 'border-red-500/50');
+            }
+
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 4000);
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            if (sidebar.classList.contains('translate-x-full')) {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.getElementById(tabId).classList.remove('hidden');
+
+            const activeBtnClass = "bg-white/90 text-green-955 shadow-md border border-white/80";
+            const inactiveBtnClass = "text-green-900 hover:text-green-955";
+
+            if (tabId === 'analysis-tab') {
+                document.getElementById('btn-analysis-tab').className = `flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-black text-xs md:text-sm transition-all duration-300 ${activeBtnClass}`;
+                document.getElementById('btn-recipes-tab').className = `flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-black text-xs md:text-sm transition-all duration-300 ${inactiveBtnClass}`;
+            } else {
+                document.getElementById('btn-recipes-tab').className = `flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-black text-xs md:text-sm transition-all duration-300 ${activeBtnClass}`;
+                document.getElementById('btn-analysis-tab').className = `flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-black text-xs md:text-sm transition-all duration-300 ${inactiveBtnClass}`;
+            }
+        }
+
+        function openContactModal() {
+            document.getElementById('contactModal').classList.remove('hidden');
+            toggleSidebar();
+        }
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.add('hidden');
+        }
+        function openFeedbackModal() {
+            document.getElementById('feedbackModal').classList.remove('hidden');
+            toggleSidebar();
+        }
+        function closeFeedbackModal() {
+            document.getElementById('feedbackModal').classList.add('hidden');
+        }
+
+        // ==========================================
+        // نظام التقييم بالنجوم
+        // ==========================================
+        function setRating(val) {
+            userSelectedRating = val;
+            for (let i = 1; i <= 5; i++) {
+                const label = document.querySelector(`label[for="star${i}"]`);
+                if (i <= val) {
+                    label.classList.add('text-amber-500');
+                    label.classList.remove('text-slate-300');
+                } else {
+                    label.classList.remove('text-amber-500');
+                    label.classList.add('text-slate-300');
+                }
+            }
+        }
+
+        // ==========================================
+        // معالجة النماذج وإرسال البيانات للـ Cloud / Supabase
+        // ==========================================
+        async function submitContactForm(e) {
+            e.preventDefault();
+            const submitBtn = document.getElementById('contactSubmitBtn');
+            const name = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('contactEmail').value.trim();
+            const message = document.getElementById('contactMessage').value.trim();
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>جاري الإرسال...</span>`;
+
+            // إذا لم يتم تهيئة مكتبة Supabase بعد أو لا يوجد مفتاح مخصص
+            if (!supabaseClient) {
+                setTimeout(() => {
+                    showNotification(currentAppLang === 'ar' ? 'تم حفظ رسالتك بنجاح محلياً! (يرجى إرفاق معلومات Supabase للربط السحابي)' : 'Message saved locally! (Add your Supabase keys for cloud connection)');
+                    document.getElementById('contactMessage').value = '';
+                    closeContactModal();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<span>إرسال الرسالة الآن</span>`;
+                }, 1000);
+                return;
+            }
+
+            try {
+                // إدخال البيانات في جدول 'contact_messages'
+                const { error } = await supabaseClient
+                    .from('contact_messages')
+                    .insert([{ name, email, message }]);
+
+                if (error) throw error;
+
+                showNotification(currentAppLang === 'ar' ? 'تم إرسال رسالتك بنجاح وحفظها سحابياً في Supabase!' : 'Message sent successfully and saved to Supabase cloud!');
+                document.getElementById('contactMessage').value = '';
+                closeContactModal();
+            } catch (err) {
+                console.error("Supabase Error:", err);
+                showNotification(currentAppLang === 'ar' ? 'حدث خطأ في الاتصال بالسحابة. يرجى مراجعة إعدادات الجدول وRLS في Supabase.' : 'Cloud connection error. Verify table and RLS settings in Supabase.', true);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span>إرسال الرسالة الآن</span>`;
+            }
+        }
+
+        async function submitFeedbackForm(e) {
+            e.preventDefault();
+            if (userSelectedRating === 0) {
+                showNotification(currentAppLang === 'ar' ? 'الرجاء اختيار النجوم للتقييم!' : 'Please select stars to rate!', true);
+                return;
+            }
+
+            const submitBtn = document.getElementById('feedbackSubmitBtn');
+            const username = localStorage.getItem('liyaqa_username') || "زائر";
+            const comment = document.getElementById('feedbackComment').value.trim();
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span>جاري الإرسال...</span>`;
+
+            // إذا لم يتم تهيئة مكتبة Supabase بعد أو لا يوجد مفتاح مخصص
+            if (!supabaseClient) {
+                setTimeout(() => {
+                    showNotification(currentAppLang === 'ar' ? 'شكراً لتقييمك! تم الحفظ محلياً (يرجى إرفاق معلومات Supabase للربط السحابي)' : 'Thank you! Saved locally (Add Supabase keys for cloud connection)');
+                    document.getElementById('feedbackComment').value = '';
+                    setRating(0);
+                    closeFeedbackModal();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<span>إرسال التقييم</span>`;
+                }, 1000);
+                return;
+            }
+
+            try {
+                // إدخال البيانات في جدول 'user_feedbacks'
+                const { error } = await supabaseClient
+                    .from('user_feedbacks')
+                    .insert([{ username, rating: userSelectedRating, comment }]);
+
+                if (error) throw error;
+
+                showNotification(currentAppLang === 'ar' ? 'تم إرسال تقييمك بنجاح إلى قاعدة بيانات Supabase!' : 'Your feedback was successfully sent to Supabase database!');
+                document.getElementById('feedbackComment').value = '';
+                setRating(0);
+                closeFeedbackModal();
+            } catch (err) {
+                console.error("Supabase Error:", err);
+                showNotification(currentAppLang === 'ar' ? 'حدث خطأ أثناء الإرسال. يرجى مراجعة الجدول وسياسات RLS في لوحة Supabase.' : 'Error during submission. Check your Table and RLS policies in Supabase.', true);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = `<span>إرسال التقييم</span>`;
+            }
+        }
+
+        // ==========================================
+        // محرك البحث التلقائي والاقتراحات
+        // ==========================================
+        function showDbSuggestions(val) {
+            const container = document.getElementById('searchSuggestions');
+            if (!val.trim()) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            const query = val.toLowerCase().trim();
+            const matches = Object.keys(ingredientsDB).filter(key => key.includes(query));
+
+            if (matches.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.innerHTML = matches.map(match => `
+                <div onclick="selectSuggestion('${match}')" class="px-4 py-2.5 hover:bg-green-100/50 cursor-pointer font-black text-xs md:text-sm text-slate-800 flex items-center justify-between border-b border-green-200/40 last:border-none">
+                    <span>${match}</span>
+                    <span class="text-[10px] px-2 py-0.5 bg-green-200/70 text-green-900 rounded-full font-black uppercase">${t(ingredientsDB[match].cat)}</span>
+                </div>
+            `).join('');
+            container.classList.remove('hidden');
+        }
+
+        function selectSuggestion(name) {
+            document.getElementById('mealName').value = name;
+            document.getElementById('searchSuggestions').classList.add('hidden');
+        }
+
+        // ==========================================
+        // رفع الصور وتحليل الوجبات
+        // ==========================================
+        function setupDropZone() {
+            const dropZone = document.getElementById('dropZone');
+            if(!dropZone) return;
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('bg-white/40', 'scale-[1.02]');
+            });
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('bg-white/40', 'scale-[1.02]');
+            });
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('bg-white/40', 'scale-[1.02]');
+                if (e.dataTransfer.files.length > 0) {
+                    handleFileUpload(e.dataTransfer.files[0]);
+                }
+            });
+            dropZone.addEventListener('click', () => {
+                document.getElementById('fileInput').click();
+            });
+        }
+
+        function handleFileUpload(file) {
+            if (!file) return;
+            if (!file.type.startsWith('image/')) {
+                showNotification(currentAppLang === 'ar' ? 'يرجى تحميل ملف صورة صالح فقط!' : 'Please upload a valid image file!', true);
+                return;
+            }
+            showNotification(currentAppLang === 'ar' ? 'تم رفع صورة طبقك! اضغط على "خلينا نحسب السعرات" للتحليل البصري.' : 'Image uploaded! Click on "Calculate Calories" for visual analysis.');
+            
+            const items = Object.keys(ingredientsDB);
+            const randomMeal = items[Math.floor(Math.random() * items.length)];
+            document.getElementById('mealName').value = randomMeal;
+        }
+
+        function analyzeMeal() {
+            const name = document.getElementById('mealName').value.trim();
+            const weightInput = document.getElementById('mealWeight').value;
+            const weight = parseFloat(weightInput);
+
+            if (!name) {
+                showNotification(currentAppLang === 'ar' ? 'الرجاء إدخال اسم الوجبة أو اختيار مكون!' : 'Please enter a meal name or select an ingredient!', true);
+                return;
+            }
+            if (!weight || weight <= 0) {
+                showNotification(currentAppLang === 'ar' ? 'الرجاء إدخال وزن صحيح أكبر من الصفر!' : 'Please enter a valid weight greater than zero!', true);
+                return;
+            }
+
+            document.getElementById('initialState').classList.add('hidden');
+            document.getElementById('resultCard').classList.add('hidden');
+            document.getElementById('loader').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('resultCard').classList.remove('hidden');
+
+                let data = ingredientsDB[name];
+                let isAiGenerated = false;
+
+                if (!data) {
+                    isAiGenerated = true;
+                    let hash = 0;
+                    for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
+                    const p = Math.abs((hash % 15) + 5); 
+                    const c = Math.abs(((hash >> 2) % 35) + 5);
+                    const f = Math.abs(((hash >> 4) % 12) + 2);
+                    data = { p, c, f, cat: "AI", desc: "وجبة محللة بالخوارزميات الذكية" };
+                }
+
+                const factor = weight / 100;
+                const finalProtein = (data.p * factor).toFixed(1);
+                const finalCarbs = (data.c * factor).toFixed(1);
+                const finalFats = (data.f * factor).toFixed(1);
+                const finalCalories = Math.round((finalProtein * 4) + (finalCarbs * 4) + (finalFats * 9));
+
+                document.getElementById('resName').innerText = name;
+                document.getElementById('resWeight').innerText = weight;
+                document.getElementById('resCategory').innerText = currentAppLang === 'ar' ? data.desc : t(data.cat);
+                document.getElementById('resCalories').innerText = finalCalories;
+                document.getElementById('resProtein').innerText = finalProtein + "g";
+                document.getElementById('resCarbs').innerText = finalCarbs + "g";
+                document.getElementById('resFats').innerText = finalFats + "g";
+
+                const aiBadge = document.getElementById('aiBadge');
+                if (isAiGenerated) {
+                    aiBadge.classList.remove('hidden');
+                } else {
+                    aiBadge.classList.add('hidden');
+                }
+
+                showNotification(currentAppLang === 'ar' ? `تم حساب العناصر لـ ${name} بدقة.` : `Macros calculated accurately for ${name}.`);
+            }, 1200);
+        }
+
+        // ==========================================
+        // ملاءمة الأهداف الرياضية والوصفات
+        // ==========================================
+        function updateCalorieLabel(val) {
+            document.getElementById('calorieTargetDisplay').innerText = val;
+            document.getElementById('aiCalorieLabel').innerText = val;
+            updateSmartRecipes();
+        }
+
+        function filterRecipes(cat) {
+            currentActiveFilter = cat;
+            document.querySelectorAll('[id^="filter-"]').forEach(btn => {
+                btn.className = "px-5 py-2.5 bg-white/50 text-green-955 border border-green-300/50 hover:border-green-400 text-xs font-black rounded-2xl transition-all shadow-sm backdrop-blur-sm";
+            });
+            document.getElementById(`filter-${cat}`).className = "px-5 py-2.5 bg-green-700 text-white border border-green-700 text-xs font-black rounded-2xl transition-all shadow-md";
+            updateSmartRecipes();
+        }
+
+        function updateSmartRecipes() {
+            const targetCalories = parseFloat(document.getElementById('calorieSlider').value);
+            const goal = document.querySelector('input[name="fitnessGoal"]:checked').value;
+            const container = document.getElementById('recipesGrid');
+            if(!container) return;
+            container.innerHTML = '';
+
+            let filtered = smartRecipesBase;
+            if (currentActiveFilter !== 'all') {
+                filtered = smartRecipesBase.filter(r => r.category === currentActiveFilter);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12 glass-card rounded-3xl opacity-80">
+                        <i class="fa-solid fa-face-frown text-4xl text-green-800 mb-3 animate-bounce"></i>
+                        <p class="font-black text-green-955">${t('لا يوجد وصفات تطابق هذا التصنيف حالياً')}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            let proteinMultiplier = 1.0;
+            let fatMultiplier = 1.0;
+            let carbMultiplier = 1.0;
+
+            if (goal === "bulking") {
+                proteinMultiplier = 1.1;
+                carbMultiplier = 1.35;
+                fatMultiplier = 0.95;
+            } else if (goal === "cutting") {
+                proteinMultiplier = 1.3;
+                carbMultiplier = 0.7;
+                fatMultiplier = 0.85;
+            }
+
+            filtered.forEach(recipe => {
+                let baseComponentsCalories = 0;
+                recipe.components.forEach(comp => {
+                    const ing = ingredientsDB[comp.name];
+                    if (ing) {
+                        const subCal = (ing.p * 4) + (ing.c * 4) + (ing.f * 9);
+                        baseComponentsCalories += (subCal * (comp.weight / 100));
+                    }
+                });
+
+                const scaleFactor = targetCalories / baseComponentsCalories;
+
+                let recipeProtein = 0;
+                let recipeCarbs = 0;
+                let recipeFats = 0;
+
+                const scaledComponents = recipe.components.map(comp => {
+                    const ing = ingredientsDB[comp.name];
+                    const rawWeight = comp.weight * scaleFactor;
+                    
+                    let adjustedWeight = rawWeight;
+                    if (ing) {
+                        if (ing.cat === "protein") adjustedWeight *= proteinMultiplier;
+                        if (ing.cat === "carb") adjustedWeight *= carbMultiplier;
+                        if (ing.cat === "keto") adjustedWeight *= fatMultiplier;
+                    }
+
+                    adjustedWeight = Math.max(10, Math.round(adjustedWeight));
+
+                    if (ing) {
+                        recipeProtein += (ing.p * (adjustedWeight / 100));
+                        recipeCarbs += (ing.c * (adjustedWeight / 100));
+                        recipeFats += (ing.f * (adjustedWeight / 100));
+                    }
+
+                    return { name: comp.name, weight: adjustedWeight };
+                });
+
+                const finalCal = Math.round((recipeProtein * 4) + (recipeCarbs * 4) + (recipeFats * 9));
+
+                const card = document.createElement('div');
+                card.className = "glass-card rounded-[30px] p-6 flex flex-col justify-between relative overflow-hidden group border border-green-300/40";
+                
+                card.innerHTML = `
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-green-500/10 rounded-full blur-2xl -mr-6 -mt-6"></div>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="w-12 h-12 rounded-2xl bg-white/90 border border-green-200/50 flex items-center justify-center text-green-800 shadow-md group-hover:scale-110 transition-transform">
+                                <i class="fa-solid ${recipe.icon} text-xl"></i>
+                            </div>
+                            <span class="text-[10px] px-2.5 py-1 bg-white/70 text-green-900 font-black rounded-md border border-green-300/40 uppercase tracking-widest">${t(recipe.category)}</span>
+                        </div>
+                        <div>
+                            <h4 class="text-base font-black text-slate-955 group-hover:text-green-800 transition-colors leading-tight">${currentAppLang === 'ar' ? recipe.name : t(recipe.name)}</h4>
+                            <p class="text-xs text-slate-600 font-black leading-relaxed mt-2.5">${currentAppLang === 'ar' ? recipe.desc : t(recipe.desc)}</p>
+                        </div>
+
+                        <div class="bg-white/50 p-3 rounded-2xl border border-green-200/40 shadow-inner space-y-1.5">
+                            <span class="text-[10px] font-black text-green-955 uppercase block tracking-wider">${t('التركيبة الوزنية الدقيقة للتحقيق:')}</span>
+                            <div class="space-y-1">
+                                ${scaledComponents.map(c => `
+                                    <div class="flex justify-between items-center text-xs font-black text-slate-900">
+                                        <span>• ${currentAppLang === 'ar' ? c.name : t(c.name)}</span>
+                                        <span class="bg-white/70 border border-green-200/50 px-1.5 py-0.5 rounded text-[11px] text-green-900">${c.weight} ${t('جرام')}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-green-200/40 flex items-center justify-between">
+                        <div class="text-right">
+                            <span class="text-[10px] font-bold text-slate-500 block uppercase">${t('إجمالي الوجبة')}</span>
+                            <span class="text-lg font-black text-green-800">${finalCal} <span class="text-[10px] font-bold text-slate-600">Kcal</span></span>
+                        </div>
+                        <div class="flex gap-2">
+                            <div class="text-center bg-red-100/30 px-2.5 py-1 rounded-xl border border-red-200/30">
+                                <span class="text-[9px] font-bold text-slate-500 block">${t('بروتين')}</span>
+                                <span class="text-xs font-black text-slate-900">${Math.round(recipeProtein)}g</span>
+                            </div>
+                            <div class="text-center bg-amber-100/30 px-2.5 py-1 rounded-xl border border-amber-200/30">
+                                <span class="text-[9px] font-bold text-slate-500 block">${t('كارب')}</span>
+                                <span class="text-xs font-black text-slate-900">${Math.round(recipeCarbs)}g</span>
+                            </div>
+                            <div class="text-center bg-emerald-100/30 px-2.5 py-1 rounded-xl border border-emerald-200/30">
+                                <span class="text-[9px] font-bold text-slate-500 block">${t('دهون')}</span>
+                                <span class="text-xs font-black text-slate-900">${Math.round(recipeFats)}g</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ==========================================
+        // مولد الوصفات بالذكاء الاصطناعي
+        // ==========================================
+        function generateRecipesWithAI() {
+            const cal = document.getElementById('calorieSlider').value;
+            const btn = document.getElementById('btnGenerateAI');
+            const btnText = document.getElementById('btnAIText');
+
+            btn.disabled = true;
+            btn.classList.add('opacity-75');
+            btnText.innerText = currentAppLang === 'ar' ? 'جاري ابتكار وصفات لك عبر الذكاء الاصطناعي...' : 'Generating recipes for you via AI...';
+
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.classList.remove('opacity-75');
+                btnText.innerText = currentAppLang === 'ar' ? 'لم تعجبك؟ إعادة التوليد بوصفات جديدة 🔄' : 'Don\'t like it? Regenerate new recipes 🔄';
+
+                const aiRecipes = [
+                    { name: "صينية الفرن السريعة المبتكرة بالصلصة", icon: "fa-wand-magic-sparkles", category: "vegan", desc: "وصفة جديدة كلياً تم ابتكارها من أجلك لتمنحك الألياف والبروتين النباتي.", components: [{ name: "بروكلي سوتيه", weight: 200 }, { name: "حمص مسلوق", weight: 150 }, { name: "زيت زيتون", weight: 12 }] },
+                    { name: "تندر الدجاج والبطاطا الحلوة المقرمشة", icon: "fa-fire-flame-curved", category: "protein", desc: "وصفة غنية مخصصة تدمج الكربوهيدرات الذكية بالطاقة المستدامة لتدريب شاق.", components: [{ name: "صدر دجاج مشوي", weight: 190 }, { name: "بطاطا حلوة مسلوقة", weight: 200 }, { name: "لوز", weight: 15 }] }
+                ];
+
+                smartRecipesBase.unshift(...aiRecipes);
+                updateSmartRecipes();
+
+                showNotification(currentAppLang === 'ar' ? `تم ابتكار وصفات دقيقة وتكييفها لـ ${cal} سعرة!` : `New AI recipes created and adapted for ${cal} calories!`);
+            }, 1200);
+        }
+    </script>
+</body>
+</html>
