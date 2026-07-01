@@ -1520,31 +1520,28 @@
         // ==========================================
         // وظيفة الاستدعاء السحابي لـ Gemini API
         // ==========================================
-        async function fetchGeminiData(payload) {
-            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`;
-            let delay = 1000;
+       async function fetchGeminiData(payload) {
 
-            for (let i = 0; i < 5; i++) {
-                try {
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-goog-api-key': apiKey
-                        },
-                        body: JSON.stringify(payload)
-                    });
+    const response = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+    });
 
-                    if (response.ok) {
-                        return await response.json();
-                    }
+    const data = await response.json();
 
-                    if (response.status === 429 || response.status >= 500) {
-                        await new Promise(resolve => setTimeout(resolve, delay));
-                        delay *= 2;
-                        continue;
-                    }
+    if (!response.ok) {
+        throw new Error(
+            data?.error?.message ||
+            data?.error ||
+            `HTTP ${response.status}`
+        );
+    }
 
+    return data;
+}
                     const errData = await response.json();
                     throw new Error(errData.error?.message || `HTTP ${response.status}`);
                 } catch (error) {
