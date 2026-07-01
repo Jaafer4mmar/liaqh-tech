@@ -714,7 +714,7 @@
         // ==========================================
         // إرسال تفاعلات حاسبة السعرات وحفظها في Supabase
         // ==========================================
-        async async function logMealAnalysisToSupabase(data, weight, isAi) {
+        async function logMealAnalysisToSupabase(data, weight, isAi) {
             if (!supabaseClient) return;
             const username = localStorage.getItem('liyaqa_username') || "زائر";
             const factor = weight / 100;
