@@ -1520,7 +1520,7 @@
         // ==========================================
         // وظيفة الاستدعاء السحابي لـ Gemini API
         // ==========================================
-       async function fetchGeminiData(payload) {
+async function fetchGeminiData(payload) {
 
     const response = await fetch('/api/analyze', {
         method: 'POST',
@@ -1542,15 +1542,6 @@
 
     return data;
 }
-                    const errData = await response.json();
-                    throw new Error(errData.error?.message || `HTTP ${response.status}`);
-                } catch (error) {
-                    if (i === 4) throw error;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    delay *= 2;
-                }
-            }
-        }
 
         // ==========================================
         // تحليل الوجبات وحساب السعرات
