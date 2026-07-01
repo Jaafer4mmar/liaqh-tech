@@ -1542,13 +1542,6 @@
 
     return data;
 }
-                } catch (error) {
-                    if (i === 4) throw error;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                    delay *= 2;
-                }
-            }
-        }
 
         // ==========================================
         // تحليل الوجبات وحساب السعرات
