@@ -688,7 +688,7 @@
         //  إعدادات الاتصال بـ Supabase 
         // ==========================================
         const SUPABASE_URL = "https://rtzhcyxmglzcpcwozxce.supabase.co"; 
-        const SUPABASE_KEY = "sb_publishable_ELuCoyVfW0sgm-bwVoamrA_uFHP6obd"; 
+        const SUPABASE_KEY = "PUT_YOUR_ANON_PUBLIC_KEY_HERE"; 
         
         let supabaseClient = null;
 
@@ -1520,7 +1520,7 @@
         // ==========================================
         // وظيفة الاستدعاء السحابي لـ Gemini API
         // ==========================================
-async function fetchGeminiData(payload) {
+       async function fetchGeminiData(payload) {
 
     const response = await fetch('/api/analyze', {
         method: 'POST',
@@ -1542,6 +1542,15 @@ async function fetchGeminiData(payload) {
 
     return data;
 }
+                    const errData = await response.json();
+                    throw new Error(errData.error?.message || `HTTP ${response.status}`);
+                } catch (error) {
+                    if (i === 4) throw error;
+                    await new Promise(resolve => setTimeout(resolve, delay));
+                    delay *= 2;
+                }
+            }
+        }
 
         // ==========================================
         // تحليل الوجبات وحساب السعرات
