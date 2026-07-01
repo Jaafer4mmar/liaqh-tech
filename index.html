@@ -688,7 +688,7 @@
         //  إعدادات الاتصال بـ Supabase 
         // ==========================================
         const SUPABASE_URL = "https://rtzhcyxmglzcpcwozxce.supabase.co"; 
-        const SUPABASE_KEY = "sb_publishable_ELuCoyVfW0sgm-bwVoamrA_uFHP6obd"; 
+        const SUPABASE_KEY = "PUT_YOUR_ANON_PUBLIC_KEY_HERE"; 
         
         let supabaseClient = null;
 
@@ -714,7 +714,7 @@
         // ==========================================
         // إرسال تفاعلات حاسبة السعرات وحفظها في Supabase
         // ==========================================
-        async function logMealAnalysisToSupabase(data, weight, isAi) {
+        async async function logMealAnalysisToSupabase(data, weight, isAi) {
             if (!supabaseClient) return;
             const username = localStorage.getItem('liyaqa_username') || "زائر";
             const factor = weight / 100;
